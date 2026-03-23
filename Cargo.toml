@@ -20,5 +20,3 @@ nobios = []
 targets = ["riscv64gc-unknown-none-elf"]
 
 [dependencies]
-
-[workspace]
