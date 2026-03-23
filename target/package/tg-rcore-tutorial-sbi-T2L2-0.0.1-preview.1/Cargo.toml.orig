@@ -1,0 +1,24 @@
+[package]
+name = "tg-rcore-tutorial-sbi-T2L2"
+description = "T2L2: 增加时钟中断M态转发支持，SBI (Supervisor Binary Interface) call wrappers for rCore tutorial OS."
+version = "0.0.1-preview.1"
+edition = "2024"
+authors = ["Ivans-11 <w-yf22@mails.tsinghua.edu.cn>"]
+repository = "https://github.com/rcore-os/tg-rcore-tutorial-sbi"
+homepage = "https://github.com/rcore-os/tg-rcore-tutorial-sbi/tree/test"
+documentation = "https://docs.rs/tg-rcore-tutorial-sbi"
+license = "GPL-3.0"
+readme = "README.md"
+keywords = ["ai","ai4ose","kernel","learning","os"]
+categories = ["no-std", "embedded"]
+
+[features]
+default = []
+nobios = []
+
+[package.metadata.docs.rs]
+targets = ["riscv64gc-unknown-none-elf"]
+
+[dependencies]
+
+[workspace]

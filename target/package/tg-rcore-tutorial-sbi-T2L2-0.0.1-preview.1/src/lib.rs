@@ -43,7 +43,6 @@
 
 #![no_std]
 #![deny(warnings, missing_docs)]
-#![allow(non_snake_case)]
 
 // M-Mode SBI 实现（用于 -bios none 启动）
 #[cfg(all(feature = "nobios", target_arch = "riscv64"))]
