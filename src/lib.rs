@@ -38,6 +38,9 @@
 //! 4. 若开启 `nobios`：请求进入本 crate 的 `m_entry.asm + msbi.rs`
 //! 5. M-mode 处理完成后，返回到 S-mode 内核继续执行
 //!
+//! 在多核场景下，`m_entry.asm` 会为每个 hart 分配独立的 M-mode 启动栈，
+//! 并将 `hartid` 与 `dtb` 保留到 S-mode 入口，供上层章节完成 CPU 计数和同步。
+//!
 //! 这使得上层章节代码不需要关心“外部固件”还是“内置最小 SBI”，
 //! 只需面向统一 API 编程即可。
 

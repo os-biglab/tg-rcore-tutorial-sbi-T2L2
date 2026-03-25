@@ -4,9 +4,15 @@
     .section .text.m_entry
     .globl _m_start
 _m_start:
-    # 1) 初始化 M 态栈
-    la sp, m_stack_top
-    # 将 M 态栈顶保存到 mscratch，后续陷阱处理时用于切换栈
+    # 1) 为当前 hart 选择独立的 M 态启动栈
+    #    这里直接使用 mhartid 作为索引，避免多个 hart 共享同一栈。
+    csrr t2, mhartid
+    slli t2, t2, 12            # 4 KiB = 1 << 12
+    la sp, m_stack_lower_bound
+    add sp, sp, t2
+    li t3, 4096
+    add sp, sp, t3
+    # 将当前 hart 的 M 态栈顶保存到 mscratch，后续陷阱处理时用于切换栈
     csrw mscratch, sp
 
     # 2) 配置 mstatus：MPP=01（返回到 S 态），MPIE=1
@@ -129,10 +135,8 @@ m_handle_mtimer:
     .section .bss.m_stack
     .globl m_stack_lower_bound
 m_stack_lower_bound:
-    # M 态专用栈（16 KiB）
-    .space 4096 * 4
-    .globl m_stack_top
-m_stack_top:
+    # M 态专用栈（64 个 hart × 4 KiB）
+    .space 4096 * 64
 
     .section .bss.m_data
     # 预留少量 M 态数据区（当前实现未显式使用，便于后续扩展）
