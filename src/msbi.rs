@@ -138,10 +138,16 @@ fn handle_console_getchar() -> SbiRet {
 /// 处理 Timer 扩展（EID 0x54494D45）。
 fn handle_timer(time: u64) -> SbiRet {
     const CLINT_MTIMECMP: usize = 0x200_4000;
+    let hart_id: usize;
+    // SAFETY: 读取 mhartid CSR 获取当前 hart 编号，用于选择对应的 mtimecmp。
+    unsafe {
+        asm!("csrr {}, mhartid", out(reg) hart_id);
+    }
+    let mtimecmp = CLINT_MTIMECMP + hart_id * core::mem::size_of::<u64>();
     // SAFETY: 向 QEMU virt 机器的已知 MMIO 地址写入 CLINT mtimecmp 寄存器。
     // 这将设置下一次定时器中断的触发时间。
     unsafe {
-        (CLINT_MTIMECMP as *mut u64).write_volatile(time);
+        (mtimecmp as *mut u64).write_volatile(time);
     }
     // 开启 M 态定时器中断（MTIE）：仅在成功编程 mtimecmp 后打开，避免启动早期中断风暴。
     // SAFETY: 修改 mie CSR 是有效的 M-mode 操作。
