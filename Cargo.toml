@@ -1,7 +1,7 @@
 [package]
 name = "tg-rcore-tutorial-sbi-T2L2"
 description = "完善多核时钟中断，增加多核，T2L2: 增加时钟中断M态转发支持，SBI (Supervisor Binary Interface) call wrappers for rCore tutorial OS."
-version = "0.0.1-preview.4"
+version = "0.0.1-preview.5"
 edition = "2024"
 authors = ["Ivans-11 <w-yf22@mails.tsinghua.edu.cn>"]
 repository = "https://github.com/rcore-os/tg-rcore-tutorial-sbi"
