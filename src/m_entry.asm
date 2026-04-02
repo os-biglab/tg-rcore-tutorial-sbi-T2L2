@@ -47,6 +47,8 @@ _m_start:
     li t0, -1
     csrw mcounteren, t0
 
+    # csrr a0, mhartid
+
     # 8) mret 切到 S 态，开始执行章节内核入口
     mret
 
